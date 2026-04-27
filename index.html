@@ -777,7 +777,10 @@
                     body: JSON.stringify(payload)
                 });
                 
-                if (!res.ok) throw new Error('Save failed');
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => ({}));
+                    throw new Error(errorData.error || `HTTP ${res.status}`);
+                }
 
                 btnSave.innerHTML = `<i data-lucide="check" style="width: 18px;"></i> Tersimpan`;
                 lucide.createIcons();
@@ -785,7 +788,7 @@
                 
             } catch(e) {
                 console.error(e);
-                alert("Gagal sinkronisasi ke cloud!");
+                alert("Gagal sinkronisasi: " + e.message + "\n(Pastikan Anda membuka link Vercel, bukan file lokal atau GitHub)");
                 btnSave.innerHTML = `<i data-lucide="x" style="width: 18px;"></i> Gagal`;
                 lucide.createIcons();
                 btnSave.style.background = '#EF4444';
