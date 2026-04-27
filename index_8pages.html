@@ -725,12 +725,12 @@
                     });
                     const data = await res.json();
                     
-                    if (data.success) {
-                        const imgUrl = data.data.url;
+                    if (data.success && data.data) {
+                        const imgUrl = data.data.display_url || data.data.url;
                         if (currentImageTarget.tagName === 'IMG') {
                             currentImageTarget.src = imgUrl;
                         } else if (currentImageTarget.classList.contains('portfolio-upload-area')) {
-                            currentImageTarget.innerHTML = `<img src="${imgUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">`;
+                            currentImageTarget.innerHTML = `<img src="${imgUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;" onerror="this.src='https://via.placeholder.com/150?text=Error+Loading+Image'">`;
                             currentImageTarget.style.border = 'none';
 
                             const newImg = currentImageTarget.querySelector('img');
@@ -738,7 +738,7 @@
                             newImg.addEventListener('click', function (evt) {
                                 evt.stopPropagation();
                                 if (!isEditMode) return;
-                                currentImageTarget = this.parentElement;
+                                currentImageTarget = this;
                                 uploader.click();
                             });
                         }
