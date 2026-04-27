@@ -595,8 +595,6 @@
     <input type="file" id="imageUploader" accept="image/*" style="display: none;">
     <script>
         const IMGBB_API_KEY = "2e272c75e3857579bbeba09f6c705291";
-        const JSONBIN_MASTER_KEY = "$2a$10$VRbDLo1lkx6.UMlkHIcJbeVTcomkPy.AWb1mvvE0Hr9RpIJKVCSy.";
-        let JSONBIN_BIN_ID = "69eeeb84aaba88219740041c";
 
         lucide.createIcons();
 
@@ -726,21 +724,23 @@
                     const data = await res.json();
                     
                     if (data.success && data.data) {
-                        const imgUrl = data.data.display_url || data.data.url;
+                        const imgUrl = data.data.url || data.data.display_url;
                         if (currentImageTarget.tagName === 'IMG') {
                             currentImageTarget.src = imgUrl;
                         } else if (currentImageTarget.classList.contains('portfolio-upload-area')) {
-                            currentImageTarget.innerHTML = `<img src="${imgUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;" onerror="this.src='https://via.placeholder.com/150?text=Error+Loading+Image'">`;
+                            // Gunakan Background Image agar lebih stabil
+                            currentImageTarget.style.backgroundImage = `url('${imgUrl}')`;
+                            currentImageTarget.style.backgroundSize = 'cover';
+                            currentImageTarget.style.backgroundPosition = 'center';
                             currentImageTarget.style.border = 'none';
-
-                            const newImg = currentImageTarget.querySelector('img');
-                            newImg.style.cursor = isEditMode ? 'pointer' : 'default';
-                            newImg.addEventListener('click', function (evt) {
-                                evt.stopPropagation();
+                            currentImageTarget.innerHTML = ''; // Hapus teks "Tambah Foto"
+                            
+                            // Re-bind klik agar bisa diganti lagi
+                            currentImageTarget.onclick = function() {
                                 if (!isEditMode) return;
                                 currentImageTarget = this;
                                 uploader.click();
-                            });
+                            };
                         }
                     } else {
                         throw new Error('Gagal dari ImgBB');
@@ -771,29 +771,13 @@
             const payload = { htmlData: htmlData };
 
             try {
-                let url = 'https://api.jsonbin.io/v3/b';
-                let method = 'POST';
-                if (JSONBIN_BIN_ID) {
-                    url = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-                    method = 'PUT';
-                }
-
-                const res = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_MASTER_KEY
-                    },
+                const res = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
                 
-                const data = await res.json();
-                
-                if (method === 'POST' && data.metadata && data.metadata.id) {
-                    JSONBIN_BIN_ID = data.metadata.id;
-                    localStorage.setItem("CV_BERKAH_BIN_ID", JSONBIN_BIN_ID);
-                    prompt("DATABASE BERHASIL DIBUAT!\n\nTolong copy BIN_ID ini dan berikan ke AI untuk dipasang permanen di file HTML:", JSONBIN_BIN_ID);
-                }
+                if (!res.ok) throw new Error('Save failed');
 
                 btnSave.innerHTML = `<i data-lucide="check" style="width: 18px;"></i> Tersimpan`;
                 lucide.createIcons();
@@ -815,22 +799,19 @@
         });
 
         async function loadFromCloud() {
-            if (!JSONBIN_BIN_ID) return;
             try {
-                const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-                    headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
-                });
+                const res = await fetch('/api/load');
                 const data = await res.json();
-                if (data.record && data.record.htmlData) {
+                if (data && data.htmlData) {
                     const panels = document.querySelectorAll('.a4-panel');
-                    data.record.htmlData.forEach((html, i) => {
+                    data.htmlData.forEach((html, i) => {
                         if (panels[i]) panels[i].innerHTML = html;
                     });
                     attachEvents();
                     lucide.createIcons();
                 }
             } catch (e) {
-                console.error("Gagal load dari cloud", e);
+                console.error("Gagal load dari Vercel KV", e);
             }
         }
 
