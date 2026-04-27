@@ -601,7 +601,7 @@
         lucide.createIcons();
 
         let isEditMode = false;
-        let textElements, imageElements, portfolioBox;
+        let textElements, imageElements, portfolioBoxes;
 
         const btnEdit = document.getElementById('btnEdit');
         const btnSave = document.getElementById('btnSave');
@@ -611,7 +611,7 @@
         function attachEvents() {
             textElements = document.querySelectorAll('h1, h2, h3, h4, p, span, td, .pull-quote');
             imageElements = document.querySelectorAll('img');
-            portfolioBox = document.querySelector('.portfolio-upload-area');
+            portfolioBoxes = document.querySelectorAll('.portfolio-upload-area');
 
             // Efek visual saat klik teks di Mode Edit
             textElements.forEach(el => {
@@ -637,19 +637,19 @@
             });
 
             // Event listener portfolio
-            if (portfolioBox) {
-                portfolioBox.addEventListener('mouseover', function () {
+            portfolioBoxes.forEach(box => {
+                box.addEventListener('mouseover', function () {
                     if (isEditMode) this.style.background = 'var(--slate-300)';
                 });
-                portfolioBox.addEventListener('mouseout', function () {
+                box.addEventListener('mouseout', function () {
                     if (isEditMode) this.style.background = 'var(--slate-200)';
                 });
-                portfolioBox.addEventListener('click', function () {
+                box.addEventListener('click', function () {
                     if (!isEditMode) return;
                     currentImageTarget = this;
                     uploader.click();
                 });
-            }
+            });
             
             // Re-bind portfolio uploaded images
             const uploadedPortfolios = document.querySelectorAll('.portfolio-upload-area img');
@@ -657,7 +657,7 @@
                 img.addEventListener('click', function (evt) {
                     evt.stopPropagation();
                     if (!isEditMode) return;
-                    currentImageTarget = this.parentElement;
+                    currentImageTarget = this; // Set to the img itself so it gets updated
                     uploader.click();
                 });
             });
@@ -676,10 +676,10 @@
                     el.style.cursor = 'pointer';
                     el.title = 'Klik untuk mengganti gambar';
                 });
-                if (portfolioBox) {
-                    portfolioBox.style.cursor = 'pointer';
-                    portfolioBox.title = 'Klik untuk pilih foto dari galeri';
-                }
+                portfolioBoxes.forEach(box => {
+                    box.style.cursor = 'pointer';
+                    box.title = 'Klik untuk pilih foto dari galeri';
+                });
             } else {
                 document.body.classList.remove('mode-edit');
                 document.body.classList.add('mode-view');
@@ -693,10 +693,10 @@
                     el.style.cursor = 'default';
                     el.title = '';
                 });
-                if (portfolioBox) {
-                    portfolioBox.style.cursor = 'default';
-                    portfolioBox.title = '';
-                }
+                portfolioBoxes.forEach(box => {
+                    box.style.cursor = 'default';
+                    box.title = '';
+                });
             }
         }
 
