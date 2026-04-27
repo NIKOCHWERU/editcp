@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    --primary: #212121; /* Charcoal Grey */
+    --accent: #F29200;  /* Corporate Orange */
+    --white: #FFFFFF;
+    --text: #333333;
+    --grey-light: #F4F4F4;
+    
+    /* Layout Variables */
+    --page-width: 210mm;
+    --page-height: 297mm;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #4A4A4A;
+    color: var(--text);
+}
+
+.page {
+    width: var(--page-width);
+    height: var(--page-height);
+    background: var(--white);
+    margin: 40px auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+@media print {
+    body { background: none; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; }
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+h1 { font-size: 3.5rem; line-height: 1; }
+h2 { font-size: 2.2rem; position: relative; padding-bottom: 10px; margin-bottom: 2rem; color: var(--primary); }
+h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 80px; height: 5px; background: var(--accent); }
+
+/* Reference Image Styles: Diagonal Splits & Shapes */
+.diagonal-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1; /* Di belakang foto dan teks */
+    overflow: hidden;
+}
+
+.shape-orange {
+    position: absolute;
+    width: 200%; height: 100%;
+    background: var(--accent);
+    transform: rotate(-40deg) translateY(-60%) translateX(-15%);
+    z-index: 1;
+}
+
+.shape-dark {
+    position: absolute;
+    width: 150%; height: 100%;
+    background: var(--primary);
+    transform: rotate(-40deg) translateY(45%) translateX(-5%);
+    z-index: 2;
+}
+
+/* Page 1: Cover */
+.cover-formal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 15mm;
+    position: relative;
+    z-index: 10; /* Di depan semua elemen */
+}
+
+.cover-photo {
+    position: absolute;
+    top: 0; right: 0; width: 75%; height: 50%;
+    z-index: 5; /* Di atas shape tapi di bawah teks */
+    clip-path: polygon(25% 0%, 100% 0, 100% 100%, 0% 100%);
+    box-shadow: -10px 10px 30px rgba(0,0,0,0.2);
+}
+
+.cover-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Content Layouts */
+.content-body {
+    padding: 15mm;
+    position: relative;
+    z-index: 10;
+    flex: 1;
+}
+
+.flex-2 { display: flex; gap: 2rem; }
+.col { flex: 1; }
+
+.section-dark {
+    background: var(--primary);
+    color: var(--white);
+    padding: 15mm;
+    clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+}
+
+/* Icons & Cards */
+.card-formal {
+    background: var(--white);
+    border-left: 5px solid var(--accent);
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+}
+
+.card-dark {
+    background: var(--primary);
+    padding: 1.5rem;
+    color: var(--white); /* Ensure text is white on dark bg */
+    border-right: 5px solid var(--accent);
+}
+
+.card-dark h3 {
+    color: var(--accent); /* Accent color for headings on dark cards */
+}
+
+.card-dark p {
+    color: rgba(255, 255, 255, 0.8); /* Slightly faded white for body text */
+}
+
+.icon-circle {
+    width: 50px; height: 50px;
+    background: var(--accent);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 0; /* Keep it sharp/square for formal look */
+    margin-bottom: 1rem;
+}
+
+/* Footer for all pages */
+.footer-formal {
+    height: 40px;
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15mm;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.page-num::before { content: "Page | "; opacity: 0.6; }
+
+/* Table styling */
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th { background: var(--primary); color: var(--white); padding: 10px; text-align: left; }
+td { padding: 10px; border-bottom: 1px solid #ddd; }
+tr:nth-child(even) { background: #f9f9f9; }
