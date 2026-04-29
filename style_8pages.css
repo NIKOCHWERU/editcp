@@ -399,4 +399,5 @@ p { font-size: 1rem; color: var(--slate-700); margin-bottom: 1rem; }
     outline: 3px solid var(--navy) !important;
     outline-offset: 4px;
     filter: brightness(0.9);
+    cursor: pointer;
 }
