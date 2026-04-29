@@ -439,7 +439,7 @@ p { font-size: 1rem; color: var(--slate-700); margin-bottom: 1rem; }
 }
 
 .selected-comp {
-    outline: 2px solid var(--orange) !important;
-    outline-offset: 4px;
-    box-shadow: 0 0 15px rgba(242, 146, 0, 0.3) !important;
+    outline: 1px solid #3B82F6 !important;
+    outline-offset: 2px;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.2) !important;
 }

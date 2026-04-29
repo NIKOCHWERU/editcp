@@ -17,8 +17,16 @@
         <p style="opacity: 0.8; font-size: 0.9rem;">Mohon tunggu sebentar.</p>
     </div>
 
-    <!-- Multi-selection Box -->
-    <div id="selectionLasso" style="display: none; position: absolute; border: 1px solid var(--orange); background: rgba(242, 146, 0, 0.1); z-index: 5000; pointer-events: none;"></div>
+    <!-- Multi-selection Box (Lasso) -->
+    <div id="selectionLasso" style="display: none; position: absolute; border: 1px dashed #3B82F6; background: rgba(59, 130, 246, 0.1); z-index: 5000; pointer-events: none;"></div>
+    
+    <!-- Group Bounding Box (Permanent highlight) -->
+    <div id="groupSelectBox" style="display: none; position: absolute; border: 2px solid #3B82F6; pointer-events: none; z-index: 4999; transition: all 0.1s ease-out;">
+        <div style="position: absolute; top: -5px; left: -5px; width: 10px; height: 10px; background: white; border: 2px solid #3B82F6; border-radius: 50%;"></div>
+        <div style="position: absolute; top: -5px; right: -5px; width: 10px; height: 10px; background: white; border: 2px solid #3B82F6; border-radius: 50%;"></div>
+        <div style="position: absolute; bottom: -5px; left: -5px; width: 10px; height: 10px; background: white; border: 2px solid #3B82F6; border-radius: 50%;"></div>
+        <div style="position: absolute; bottom: -5px; right: -5px; width: 10px; height: 10px; background: white; border: 2px solid #3B82F6; border-radius: 50%;"></div>
+    </div>
 
     <!-- LEMBAR 1 (SISI LUAR): HALAMAN 8 (BELAKANG) & HALAMAN 1 (DEPAN) -->
     <div class="a3-sheet" id="sheet1-outer">
@@ -612,6 +620,7 @@
         const btnDuplicateComp = document.getElementById('btnDuplicateComp');
         const btnDeleteComp = document.getElementById('btnDeleteComp');
         const lasso = document.getElementById('selectionLasso');
+        const groupSelectBox = document.getElementById('groupSelectBox');
 
         let currentImageTarget = null;
         let currentCompTarget = null;
@@ -702,6 +711,7 @@
             selectedElements.forEach(el => el.classList.remove('selected-comp'));
             selectedElements = [];
             compToolbar.style.display = 'none';
+            groupSelectBox.style.display = 'none';
         }
 
         function selectComponent(comp) {
@@ -709,9 +719,36 @@
             
             comp.classList.add('selected-comp');
             selectedElements.push(comp);
-            currentCompTarget = comp; // For single-element logic compatibility
+            currentCompTarget = comp;
             
+            updateGroupBoundingBox();
             showToolbarForSelection();
+        }
+
+        function updateGroupBoundingBox() {
+            if (selectedElements.length === 0) {
+                groupSelectBox.style.display = 'none';
+                return;
+            }
+
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            
+            selectedElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const scrollY = window.scrollY;
+                const scrollX = window.scrollX;
+                
+                if (rect.left + scrollX < minX) minX = rect.left + scrollX;
+                if (rect.top + scrollY < minY) minY = rect.top + scrollY;
+                if (rect.right + scrollX > maxX) maxX = rect.right + scrollX;
+                if (rect.bottom + scrollY > maxY) maxY = rect.bottom + scrollY;
+            });
+
+            groupSelectBox.style.display = 'block';
+            groupSelectBox.style.left = (minX - 4) + 'px';
+            groupSelectBox.style.top = (minY - 4) + 'px';
+            groupSelectBox.style.width = (maxX - minX + 8) + 'px';
+            groupSelectBox.style.height = (maxY - minY + 8) + 'px';
         }
 
         function showToolbarForSelection() {
