@@ -576,6 +576,7 @@
 
     <!-- Floating Component Toolbar -->
     <div id="compToolbar" class="comp-toolbar no-print">
+        <button id="btnEditImage" title="Ganti Gambar" style="display: none;"><i data-lucide="image" style="width: 14px;"></i></button>
         <button id="btnDuplicateComp" title="Duplikat"><i data-lucide="copy" style="width: 14px;"></i></button>
         <button id="btnDeleteComp" title="Hapus"><i data-lucide="trash-2" style="width: 14px;"></i></button>
     </div>
@@ -594,6 +595,7 @@
         const btnPrint = document.getElementById('btnPrint');
         const uploader = document.getElementById('imageUploader');
         const compToolbar = document.getElementById('compToolbar');
+        const btnEditImage = document.getElementById('btnEditImage');
         const btnDuplicateComp = document.getElementById('btnDuplicateComp');
         const btnDeleteComp = document.getElementById('btnDeleteComp');
 
@@ -619,63 +621,69 @@
                 });
             });
 
-            // Event listener ganti gambar
+            // Image components
             imageElements.forEach(el => {
-                el.addEventListener('click', function (e) {
-                    if (!isEditMode) return;
-                    currentImageTarget = this;
-                    uploader.click();
-                });
-            });
-
-            // Event listener portfolio
-            portfolioBoxes.forEach(box => {
-                box.addEventListener('mouseover', function () {
-                    if (isEditMode) this.style.background = 'var(--slate-300)';
-                });
-                box.addEventListener('mouseout', function () {
-                    if (isEditMode) this.style.background = 'var(--slate-200)';
-                });
-                box.addEventListener('click', function () {
-                    if (!isEditMode) return;
-                    currentImageTarget = this;
-                    uploader.click();
-                });
-            });
-            
-            // Re-bind portfolio uploaded images
-            const uploadedPortfolios = document.querySelectorAll('.portfolio-upload-area img');
-            uploadedPortfolios.forEach(img => {
-                img.addEventListener('click', function (evt) {
-                    evt.stopPropagation();
-                    if (!isEditMode) return;
-                    currentImageTarget = this;
-                    uploader.click();
-                });
-            });
-
-            // Hover toolbar for components
-            const components = document.querySelectorAll('.lux-card, .portfolio-item, .org-item, p, h3');
-            components.forEach(comp => {
-                comp.addEventListener('mouseenter', (e) => {
+                el.onclick = (e) => {
                     if (!isEditMode) return;
                     e.stopPropagation();
-                    currentCompTarget = comp;
-                    const rect = comp.getBoundingClientRect();
-                    compToolbar.style.display = 'flex';
-                    compToolbar.style.top = (rect.top + window.scrollY - 30) + 'px';
-                    compToolbar.style.left = rect.left + 'px';
+                    selectComponent(el);
+                };
+            });
+
+            // Portfolio areas
+            portfolioBoxes.forEach(box => {
+                box.onclick = (e) => {
+                    if (!isEditMode) return;
+                    e.stopPropagation();
+                    selectComponent(box);
+                };
+            });
+
+            // Component selection via click
+            const components = document.querySelectorAll('.lux-card, .portfolio-item, .org-item, p, h1, h2, h3, h4, .pull-quote, .org-node');
+            components.forEach(comp => {
+                comp.addEventListener('click', (e) => {
+                    if (!isEditMode) return;
+                    e.stopPropagation();
+                    selectComponent(comp);
                 });
             });
         }
 
-        // Global mouseleave to hide component toolbar
-        document.addEventListener('mousemove', (e) => {
+        function selectComponent(comp) {
+            // Remove previous highlight
+            if (currentCompTarget) currentCompTarget.classList.remove('selected-comp');
+            
+            currentCompTarget = comp;
+            currentCompTarget.classList.add('selected-comp');
+            
+            // Show toolbar
+            const rect = comp.getBoundingClientRect();
+            compToolbar.style.display = 'flex';
+            compToolbar.style.top = (rect.top + window.scrollY - 35) + 'px';
+            compToolbar.style.left = rect.left + 'px';
+
+            // Show/Hide image edit button
+            const isImg = comp.tagName === 'IMG' || comp.classList.contains('portfolio-upload-area');
+            btnEditImage.style.display = isImg ? 'block' : 'none';
+        }
+
+        // Global click to deselect
+        document.addEventListener('click', (e) => {
             if (!isEditMode) return;
-            if (!e.target.closest('.lux-card, .portfolio-item, .org-item, p, h3, #compToolbar')) {
+            if (!e.target.closest('.lux-card, .portfolio-item, .org-item, p, h1, h2, h3, h4, .pull-quote, .org-node, #compToolbar')) {
+                if (currentCompTarget) currentCompTarget.classList.remove('selected-comp');
                 compToolbar.style.display = 'none';
+                currentCompTarget = null;
             }
         });
+
+        btnEditImage.onclick = () => {
+            if (!currentCompTarget) return;
+            currentImageTarget = currentCompTarget;
+            uploader.click();
+        };
+
 
         btnDuplicateComp.onclick = () => {
             if (!currentCompTarget) return;
@@ -708,15 +716,17 @@
                 });
                 imageElements.forEach(el => {
                     el.style.cursor = 'pointer';
-                    el.title = 'Klik untuk mengganti gambar';
+                    el.title = 'Klik untuk memilih gambar';
                 });
                 portfolioBoxes.forEach(box => {
                     box.style.cursor = 'pointer';
-                    box.title = 'Klik untuk pilih foto dari galeri';
+                    box.title = 'Klik untuk memilih area foto';
                 });
             } else {
                 document.body.classList.remove('mode-edit');
                 document.body.classList.add('mode-view');
+                if (currentCompTarget) currentCompTarget.classList.remove('selected-comp');
+                compToolbar.style.display = 'none';
 
                 textElements.forEach(el => {
                     el.removeAttribute('contenteditable');
