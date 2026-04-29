@@ -10,6 +10,12 @@
 </head>
 
 <body>
+    <!-- Global Loading Overlay -->
+    <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 70, 116, 0.7); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; color: white; font-family: 'Space Grotesk', sans-serif;">
+        <i data-lucide="loader" class="spin" style="width: 50px; height: 50px; margin-bottom: 15px;"></i>
+        <h3 style="color: white; margin: 0;">Sedang Mengunggah Gambar...</h3>
+        <p style="opacity: 0.8; font-size: 0.9rem;">Mohon tunggu sebentar.</p>
+    </div>
 
     <!-- LEMBAR 1 (SISI LUAR): HALAMAN 8 (BELAKANG) & HALAMAN 1 (DEPAN) -->
     <div class="a3-sheet" id="sheet1-outer">
@@ -671,7 +677,7 @@
             });
 
             // Component selection via click
-            const components = document.querySelectorAll('.lux-card, .portfolio-item, .org-item, p, h1, h2, h3, h4, .pull-quote, .org-node');
+            const components = document.querySelectorAll('.lux-card, .portfolio-item, .org-item, p, h1, h2, h3, h4, .pull-quote, .org-node, .org-branches');
             components.forEach(comp => {
                 comp.addEventListener('click', (e) => {
                     if (!isEditMode) return;
@@ -789,11 +795,11 @@
                 
                 const oldSrc = currentImageTarget.tagName === 'IMG' ? currentImageTarget.src : '';
                 const oldHTML = currentImageTarget.innerHTML;
-                if (currentImageTarget.tagName === 'IMG') {
-                    currentImageTarget.src = 'https://i.gifer.com/ZKZg.gif';
-                } else {
-                    currentImageTarget.innerHTML = `<img src="https://i.gifer.com/ZKZg.gif" style="width: 30px; height: 30px;">`;
-                }
+                
+                // Show Global Loading
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                loadingOverlay.style.display = 'flex';
+                lucide.createIcons();
 
                 saveState();
 
@@ -804,6 +810,8 @@
                     });
                     const data = await res.json();
                     
+                    loadingOverlay.style.display = 'none';
+
                     if (data.success && data.data) {
                         const imgUrl = data.data.url || data.data.display_url;
                         if (currentImageTarget.tagName === 'IMG') {
