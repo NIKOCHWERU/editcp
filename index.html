@@ -566,6 +566,9 @@
         <button id="btnEdit" class="action-btn btn-edit">
             <i data-lucide="edit-2" style="width: 18px;"></i> Mode Edit
         </button>
+        <button id="btnUndo" class="action-btn" style="background: #94A3B8; display: none;">
+            <i data-lucide="rotate-ccw" style="width: 18px;"></i> Undo
+        </button>
         <button id="btnSave" class="action-btn btn-save">
             <i data-lucide="save" style="width: 18px;"></i> Simpan / Selesai
         </button>
@@ -592,6 +595,7 @@
 
         const btnEdit = document.getElementById('btnEdit');
         const btnSave = document.getElementById('btnSave');
+        const btnUndo = document.getElementById('btnUndo');
         const btnPrint = document.getElementById('btnPrint');
         const uploader = document.getElementById('imageUploader');
         const compToolbar = document.getElementById('compToolbar');
@@ -601,6 +605,29 @@
 
         let currentImageTarget = null;
         let currentCompTarget = null;
+        let historyStack = [];
+
+        function saveState() {
+            const panels = document.querySelectorAll('.a4-panel');
+            const currentState = Array.from(panels).map(p => p.innerHTML);
+            historyStack.push(currentState);
+            if (historyStack.length > 20) historyStack.shift(); // Limit to 20 undos
+            btnUndo.style.display = 'flex';
+        }
+
+        function undo() {
+            if (historyStack.length === 0) return;
+            const prevState = historyStack.pop();
+            const panels = document.querySelectorAll('.a4-panel');
+            prevState.forEach((html, i) => {
+                if (panels[i]) panels[i].innerHTML = html;
+            });
+            if (historyStack.length === 0) btnUndo.style.display = 'none';
+            attachEvents();
+            lucide.createIcons();
+        }
+
+        btnUndo.onclick = undo;
 
         function attachEvents() {
             textElements = document.querySelectorAll('h1, h2, h3, h4, p, span, td, .pull-quote');
@@ -611,6 +638,7 @@
             textElements.forEach(el => {
                 el.addEventListener('focus', function () {
                     if (isEditMode) {
+                        this._oldContent = this.innerHTML; // Store for change detection
                         this.style.outline = '2px dashed rgba(242, 146, 0, 0.5)';
                         this.style.outlineOffset = '2px';
                         this.style.borderRadius = '2px';
@@ -618,6 +646,9 @@
                 });
                 el.addEventListener('blur', function () {
                     this.style.outline = 'none';
+                    if (isEditMode && this.innerHTML !== this._oldContent) {
+                        saveState();
+                    }
                 });
             });
 
@@ -687,15 +718,17 @@
 
         btnDuplicateComp.onclick = () => {
             if (!currentCompTarget) return;
+            saveState();
             const clone = currentCompTarget.cloneNode(true);
             currentCompTarget.after(clone);
-            attachEvents(); // Re-bind events to new element
-            applyMode();    // Ensure it's editable
+            attachEvents();
+            applyMode();
         };
 
         btnDeleteComp.onclick = () => {
             if (!currentCompTarget) return;
             if (confirm("Hapus komponen ini?")) {
+                saveState();
                 currentCompTarget.remove();
                 compToolbar.style.display = 'none';
             }
@@ -761,6 +794,8 @@
                 } else {
                     currentImageTarget.innerHTML = `<img src="https://i.gifer.com/ZKZg.gif" style="width: 30px; height: 30px;">`;
                 }
+
+                saveState();
 
                 try {
                     const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
