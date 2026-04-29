@@ -24,22 +24,35 @@
 
 @media print {
     @page {
-        size: A3 landscape;
-        margin: 0;
+        size: A3 landscape !important;
+        margin: 0 !important;
     }
     body {
-        background: transparent;
-        margin: 0;
-        padding: 0;
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: var(--a3-width) !important;
+        height: auto !important;
+        -webkit-print-color-adjust: exact !important;
     }
     .a3-sheet {
         margin: 0 !important;
+        padding: 0 !important;
         box-shadow: none !important;
-        page-break-after: always;
+        page-break-after: always !important;
+        break-after: page !important;
+        display: flex !important;
+        flex-direction: row !important;
+        width: var(--a3-width) !important;
+        height: var(--a3-height) !important;
+        min-width: var(--a3-width) !important;
+        min-height: var(--a3-height) !important;
+        overflow: hidden !important;
+        border: none !important;
+        position: relative !important;
     }
-    * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+    .edit-toolbar, .no-print {
+        display: none !important;
     }
 }
 
@@ -66,11 +79,6 @@ body {
     display: flex;
     position: relative;
     overflow: hidden;
-}
-
-@media print {
-    body { background: none; }
-    .a3-sheet { margin: 0; box-shadow: none; page-break-after: always; }
 }
 
 .a4-panel {
@@ -265,3 +273,115 @@ p { font-size: 1rem; color: var(--slate-700); margin-bottom: 1rem; }
     font-style: italic;
     margin: 0 5px;
 }
+
+/* Organizational Chart System (Themed for Index) */
+.org-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.org-node {
+    background: var(--white);
+    border: 2px solid var(--navy);
+    padding: 1rem;
+    text-align: center;
+    min-width: 180px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 4px 4px 0 var(--orange);
+}
+
+.org-node.accent {
+    background: var(--navy);
+    color: var(--white);
+}
+
+.org-node h4 { 
+    margin: 0; 
+    font-size: 0.85rem; 
+    color: var(--navy);
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.org-node.accent h4 { color: var(--white); }
+
+.org-node p { 
+    margin: 3px 0 0; 
+    color: var(--orange); 
+    font-weight: 800; 
+    font-size: 0.65rem; 
+    letter-spacing: 1px;
+}
+
+.org-connector-v {
+    width: 2px;
+    height: 25px;
+    background: var(--navy);
+    position: relative;
+}
+
+.org-branches {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    padding-top: 20px;
+}
+
+.org-branches::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background: var(--navy);
+}
+
+.org-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.org-item::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background: var(--navy);
+}
+
+.org-sub-branches {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    padding-top: 20px;
+    margin-top: 0;
+}
+
+.org-sub-branches::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background: var(--navy);
+}
+
+.org-node.small {
+    min-width: 140px;
+    padding: 0.6rem;
+}
+
+.org-node.small h4 { font-size: 0.75rem; }
+.org-node.small p { font-size: 0.6rem; }

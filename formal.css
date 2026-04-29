@@ -169,3 +169,115 @@ table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
 th { background: var(--primary); color: var(--white); padding: 10px; text-align: left; }
 td { padding: 10px; border-bottom: 1px solid #ddd; }
 tr:nth-child(even) { background: #f9f9f9; }
+
+/* Organizational Chart System */
+.org-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.org-node {
+    background: var(--white);
+    border: 2px solid var(--primary);
+    padding: 1rem;
+    text-align: center;
+    min-width: 180px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 4px 4px 0 var(--accent);
+}
+
+.org-node.accent {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.org-node h4 { 
+    margin: 0; 
+    font-size: 0.85rem; 
+    color: var(--primary);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.org-node.accent h4 { color: var(--white); }
+
+.org-node p { 
+    margin: 3px 0 0; 
+    color: var(--accent); 
+    font-weight: 800; 
+    font-size: 0.65rem; 
+    letter-spacing: 1px;
+}
+
+.org-connector-v {
+    width: 2px;
+    height: 25px;
+    background: var(--primary);
+    position: relative;
+}
+
+.org-branches {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    padding-top: 20px;
+}
+
+.org-branches::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background: var(--primary);
+}
+
+.org-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.org-item::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background: var(--primary);
+}
+
+.org-sub-branches {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    padding-top: 20px;
+    margin-top: 0;
+}
+
+.org-sub-branches::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background: var(--primary);
+}
+
+.org-node.small {
+    min-width: 140px;
+    padding: 0.6rem;
+}
+
+.org-node.small h4 { font-size: 0.75rem; }
+.org-node.small p { font-size: 0.6rem; }
