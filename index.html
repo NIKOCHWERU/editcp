@@ -569,6 +569,15 @@
         <button id="btnSave" class="action-btn btn-save">
             <i data-lucide="save" style="width: 18px;"></i> Simpan / Selesai
         </button>
+        <button id="btnPrint" class="action-btn" style="background: #6366F1;">
+            <i data-lucide="printer" style="width: 18px;"></i> Cetak PDF
+        </button>
+    </div>
+
+    <!-- Floating Component Toolbar -->
+    <div id="compToolbar" class="comp-toolbar no-print">
+        <button id="btnDuplicateComp" title="Duplikat"><i data-lucide="copy" style="width: 14px;"></i></button>
+        <button id="btnDeleteComp" title="Hapus"><i data-lucide="trash-2" style="width: 14px;"></i></button>
     </div>
 
     <input type="file" id="imageUploader" accept="image/*" style="display: none;">
@@ -582,8 +591,14 @@
 
         const btnEdit = document.getElementById('btnEdit');
         const btnSave = document.getElementById('btnSave');
+        const btnPrint = document.getElementById('btnPrint');
         const uploader = document.getElementById('imageUploader');
+        const compToolbar = document.getElementById('compToolbar');
+        const btnDuplicateComp = document.getElementById('btnDuplicateComp');
+        const btnDeleteComp = document.getElementById('btnDeleteComp');
+
         let currentImageTarget = null;
+        let currentCompTarget = null;
 
         function attachEvents() {
             textElements = document.querySelectorAll('h1, h2, h3, h4, p, span, td, .pull-quote');
@@ -634,11 +649,53 @@
                 img.addEventListener('click', function (evt) {
                     evt.stopPropagation();
                     if (!isEditMode) return;
-                    currentImageTarget = this; // Set to the img itself so it gets updated
+                    currentImageTarget = this;
                     uploader.click();
                 });
             });
+
+            // Hover toolbar for components
+            const components = document.querySelectorAll('.lux-card, .portfolio-item, .org-item, p, h3');
+            components.forEach(comp => {
+                comp.addEventListener('mouseenter', (e) => {
+                    if (!isEditMode) return;
+                    e.stopPropagation();
+                    currentCompTarget = comp;
+                    const rect = comp.getBoundingClientRect();
+                    compToolbar.style.display = 'flex';
+                    compToolbar.style.top = (rect.top + window.scrollY - 30) + 'px';
+                    compToolbar.style.left = rect.left + 'px';
+                });
+            });
         }
+
+        // Global mouseleave to hide component toolbar
+        document.addEventListener('mousemove', (e) => {
+            if (!isEditMode) return;
+            if (!e.target.closest('.lux-card, .portfolio-item, .org-item, p, h3, #compToolbar')) {
+                compToolbar.style.display = 'none';
+            }
+        });
+
+        btnDuplicateComp.onclick = () => {
+            if (!currentCompTarget) return;
+            const clone = currentCompTarget.cloneNode(true);
+            currentCompTarget.after(clone);
+            attachEvents(); // Re-bind events to new element
+            applyMode();    // Ensure it's editable
+        };
+
+        btnDeleteComp.onclick = () => {
+            if (!currentCompTarget) return;
+            if (confirm("Hapus komponen ini?")) {
+                currentCompTarget.remove();
+                compToolbar.style.display = 'none';
+            }
+        };
+
+        btnPrint.onclick = () => {
+            window.print();
+        };
 
         function applyMode() {
             if (isEditMode) {
