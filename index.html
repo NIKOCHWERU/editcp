@@ -10,11 +10,10 @@
 </head>
 
 <body>
-    <!-- Global Loading Overlay -->
-    <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 70, 116, 0.7); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; color: white; font-family: 'Space Grotesk', sans-serif;">
-        <i data-lucide="loader" class="spin" style="width: 50px; height: 50px; margin-bottom: 15px;"></i>
-        <h3 style="color: white; margin: 0;">Sedang Mengunggah Gambar...</h3>
-        <p style="opacity: 0.8; font-size: 0.9rem;">Mohon tunggu sebentar.</p>
+    <!-- Status Notification -->
+    <div id="statusNotice" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--navy); color: white; padding: 10px 20px; border-radius: 30px; z-index: 10000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif;">
+        <i data-lucide="loader" class="spin" style="width: 16px;"></i>
+        <span id="statusText">Mengunggah...</span>
     </div>
 
     <!-- Multi-selection Box (Lasso) -->
@@ -940,19 +939,31 @@
         // Inisialisasi awal
         attachEvents();
 
-        // Proses upload ke ImgBB API
+        // Proses upload ke ImgBB API (Optimized for speed/UX)
         uploader.addEventListener('change', async function (e) {
             if (this.files && this.files[0]) {
                 const file = this.files[0];
                 const formData = new FormData();
                 formData.append('image', file);
                 
-                const oldSrc = currentImageTarget.tagName === 'IMG' ? currentImageTarget.src : '';
+                const oldSrc = currentImageTarget.tagName === 'IMG' ? currentImageTarget.src : currentImageTarget.style.backgroundImage;
                 const oldHTML = currentImageTarget.innerHTML;
                 
-                // Show Global Loading
-                const loadingOverlay = document.getElementById('loadingOverlay');
-                loadingOverlay.style.display = 'flex';
+                // 1. Instant Preview (Local URL)
+                const localUrl = URL.createObjectURL(file);
+                if (currentImageTarget.tagName === 'IMG') {
+                    currentImageTarget.src = localUrl;
+                } else {
+                    currentImageTarget.style.backgroundImage = `url('${localUrl}')`;
+                    currentImageTarget.style.backgroundSize = 'cover';
+                    currentImageTarget.innerHTML = '';
+                }
+
+                // 2. Show non-blocking status
+                const statusNotice = document.getElementById('statusNotice');
+                const statusText = document.getElementById('statusText');
+                statusNotice.style.display = 'flex';
+                statusText.innerText = "Mengunggah ke Cloud...";
                 lucide.createIcons();
 
                 saveState();
@@ -964,34 +975,30 @@
                     });
                     const data = await res.json();
                     
-                    loadingOverlay.style.display = 'none';
-
                     if (data.success && data.data) {
                         const imgUrl = data.data.url || data.data.display_url;
                         if (currentImageTarget.tagName === 'IMG') {
                             currentImageTarget.src = imgUrl;
-                        } else if (currentImageTarget.classList.contains('portfolio-upload-area')) {
-                            // Gunakan Background Image agar lebih stabil
+                        } else {
                             currentImageTarget.style.backgroundImage = `url('${imgUrl}')`;
-                            currentImageTarget.style.backgroundSize = 'cover';
-                            currentImageTarget.style.backgroundPosition = 'center';
-                            currentImageTarget.style.border = 'none';
-                            currentImageTarget.innerHTML = ''; // Hapus teks "Tambah Foto"
-                            
-                            // Re-bind klik agar bisa diganti lagi
-                            currentImageTarget.onclick = function() {
-                                if (!isEditMode) return;
-                                currentImageTarget = this;
-                                uploader.click();
-                            };
                         }
+                        
+                        statusText.innerText = "Upload Berhasil!";
+                        setTimeout(() => statusNotice.style.display = 'none', 2000);
                     } else {
                         throw new Error('Gagal dari ImgBB');
                     }
                 } catch (err) {
-                    alert("Gagal mengunggah foto ke server. Pastikan Anda terhubung ke internet.");
+                    console.error(err);
+                    statusNotice.style.display = 'none';
+                    alert("Gagal sinkronisasi gambar ke cloud. Gambar dikembalikan ke sebelumnya.");
                     if (currentImageTarget.tagName === 'IMG') currentImageTarget.src = oldSrc;
-                    else currentImageTarget.innerHTML = oldHTML;
+                    else {
+                        currentImageTarget.style.backgroundImage = oldSrc;
+                        if (!oldSrc) currentImageTarget.innerHTML = oldHTML;
+                    }
+                } finally {
+                    URL.revokeObjectURL(localUrl); // Cleanup
                 }
             }
         });
