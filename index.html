@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <!-- HALAMAN 1: COVER DEPAN (USER LIKES THIS) -->
+        <!-- HALAMAN 1: COVER DEPAN -->
         <div class="a4-panel" id="page1"
             style="background: linear-gradient(135deg, var(--slate-50) 0%, #E2E8F0 100%); color: var(--slate-900);">
             <div class="corner-marker corner-tl"></div>
@@ -67,7 +67,6 @@
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80') center/cover; opacity: 0.08; z-index: 0; filter: grayscale(1);">
             </div>
             <div class="tech-illustration" style="opacity: 0.3;"></div>
-            <!-- Top Header Logo (Sharp Flat Border - No Blur) -->
             <div style="position: absolute; top: 40px; left: 40px; z-index: 20; mix-blend-mode: multiply;">
                 <img src="logo.png" alt="Logo" style="height: 120px; object-fit: contain; filter: contrast(1.1);"
                     onerror="this.style.display='none';">
@@ -95,7 +94,7 @@
     <div class="a3-sheet" id="sheet1-inner">
         <div class="fold-line"></div>
 
-        <!-- HALAMAN 2: SAMBUTAN DIREKTUR (LAYOUT PREMIUM) -->
+        <!-- HALAMAN 2: SAMBUTAN DIREKTUR -->
         <div class="a4-panel" id="page2">
             <div class="corner-marker corner-tl"></div>
             <div class="corner-marker corner-tr"></div>
@@ -187,7 +186,7 @@
     <div class="a3-sheet" id="sheet2-outer">
         <div class="fold-line"></div>
 
-        <!-- HALAMAN 6: PRODUK & LAYANAN (DENGAN SPASI PREMIUM) -->
+        <!-- HALAMAN 6: PRODUK & LAYANAN -->
         <div class="a4-panel" id="page6">
             <div class="corner-marker corner-tl"></div>
             <div class="corner-marker corner-tr"></div>
@@ -337,7 +336,7 @@
             </p>
 
             <div style="margin-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--slate-200);">
+                <div class="lux-card" style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--slate-200);">
                     <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
                         <i data-lucide="trending-down"
                             style="color: var(--orange); margin-right: 8px; width: 18px;"></i>
@@ -347,7 +346,7 @@
                         yang kompetitif tanpa mengurangi kualitas.</p>
                 </div>
 
-                <div style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--slate-200);">
+                <div class="lux-card" style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--slate-200);">
                     <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
                         <i data-lucide="award" style="color: var(--orange); margin-right: 8px; width: 18px;"></i>
                         <h4 style="margin: 0; color: var(--navy); font-size: 0.9rem;">Kualitas Superior</h4>
@@ -356,7 +355,7 @@
                         tinggi dalam setiap produk and jasa.</p>
                 </div>
 
-                <div style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--slate-200);">
+                <div class="lux-card" style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--slate-200);">
                     <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
                         <i data-lucide="rocket" style="color: var(--orange); margin-right: 8px; width: 18px;"></i>
                         <h4 style="margin: 0; color: var(--navy); font-size: 0.9rem;">Kecepatan Logistik</h4>
@@ -365,7 +364,7 @@
                         distribusi yang sangat andal.</p>
                 </div>
 
-                <div style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--slate-200);">
+                <div class="lux-card" style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--slate-200);">
                     <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
                         <i data-lucide="cpu" style="color: var(--orange); margin-right: 8px; width: 18px;"></i>
                         <h4 style="margin: 0; color: var(--navy); font-size: 0.9rem;">Teknologi Terkini</h4>
@@ -379,7 +378,7 @@
                 <h3 style="font-size: 1rem; color: var(--navy); margin-bottom: 0.8rem;">PORTFOLIO PROYEK KAMI</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <!-- Portfolio Item 1 -->
-                    <div>
+                    <div class="portfolio-item">
                         <div class="portfolio-upload-area"
                             style="background: var(--slate-200); height: 110px; display: flex; justify-content: center; align-items: center; border-radius: 6px; border: 1px dashed var(--slate-400); transition: all 0.2s; overflow: hidden; position: relative;">
                             <p style="font-size: 0.75rem; color: var(--slate-600); pointer-events: none; margin: 0;"><i
@@ -392,7 +391,7 @@
                             singkat tentang proyek yang telah diselesaikan.</p>
                     </div>
                     <!-- Portfolio Item 2 -->
-                    <div>
+                    <div class="portfolio-item">
                         <div class="portfolio-upload-area"
                             style="background: var(--slate-200); height: 110px; display: flex; justify-content: center; align-items: center; border-radius: 6px; border: 1px dashed var(--slate-400); transition: all 0.2s; overflow: hidden; position: relative;">
                             <p style="font-size: 0.75rem; color: var(--slate-600); pointer-events: none; margin: 0;"><i
@@ -405,7 +404,7 @@
                             singkat tentang proyek yang telah diselesaikan.</p>
                     </div>
                     <!-- Portfolio Item 3 -->
-                    <div>
+                    <div class="portfolio-item">
                         <div class="portfolio-upload-area"
                             style="background: var(--slate-200); height: 110px; display: flex; justify-content: center; align-items: center; border-radius: 6px; border: 1px dashed var(--slate-400); transition: all 0.2s; overflow: hidden; position: relative;">
                             <p style="font-size: 0.75rem; color: var(--slate-600); pointer-events: none; margin: 0;"><i
@@ -418,7 +417,7 @@
                             singkat tentang proyek yang telah diselesaikan.</p>
                     </div>
                     <!-- Portfolio Item 4 -->
-                    <div>
+                    <div class="portfolio-item">
                         <div class="portfolio-upload-area"
                             style="background: var(--slate-200); height: 110px; display: flex; justify-content: center; align-items: center; border-radius: 6px; border: 1px dashed var(--slate-400); transition: all 0.2s; overflow: hidden; position: relative;">
                             <p style="font-size: 0.75rem; color: var(--slate-600); pointer-events: none; margin: 0;"><i
@@ -434,7 +433,7 @@
             </div>
         </div>
 
-        <!-- HALAMAN 5: STRUKTUR ORGANISASI (GOLDEN RATIO BALANCE) -->
+        <!-- HALAMAN 5: STRUKTUR ORGANISASI -->
         <div class="a4-panel" id="page5">
             <div class="corner-marker corner-tl"></div>
             <div class="corner-marker corner-tr"></div>
@@ -447,15 +446,11 @@
             </div>
 
             <div class="org-container">
-                <!-- LEVEL 1: DIREKTUR -->
                 <div class="org-node accent">
                     <h4>MULYANA ABDUL AZIS</h4>
                     <p>DIREKTUR</p>
                 </div>
-                
                 <div class="org-connector-v"></div>
-                
-                <!-- LEVEL 2: MANAGERS -->
                 <div class="org-branches">
                     <div class="org-item">
                         <div class="org-node small">
@@ -468,10 +463,7 @@
                             <h4>WIDATURROHMAH</h4>
                             <p>MANAGER OPERASIONAL</p>
                         </div>
-                        
                         <div class="org-connector-v" style="height: 15px;"></div>
-                        
-                        <!-- LEVEL 3: MARKETING UNDER OPERASIONAL -->
                         <div class="org-sub-branches" style="width: 250px;">
                             <div class="org-item">
                                 <div class="org-node small" style="min-width: 100px;">
@@ -500,17 +492,6 @@
     </div>
 
     <style>
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-
-            .portfolio-upload-area {
-                border: none !important;
-                background: transparent !important;
-            }
-        }
-
         .edit-toolbar {
             position: fixed;
             bottom: 30px;
@@ -535,31 +516,16 @@
             transition: all 0.3s ease;
         }
 
-        .btn-edit {
-            background: var(--orange);
-        }
+        .btn-edit { background: var(--navy); }
+        .btn-edit:hover { background: #153a5f; transform: translateY(-2px); }
+        .btn-save { background: #10B981; }
+        .btn-save:hover { background: #059669; transform: translateY(-2px); }
 
-        .btn-edit:hover {
-            background: #d97d00;
-            transform: translateY(-2px);
-        }
+        .mode-view .action-btn.btn-save { display: none; }
+        .mode-edit .action-btn.btn-edit { display: none; }
 
-        .btn-save {
-            background: #10B981;
-        }
-
-        .btn-save:hover {
-            background: #059669;
-            transform: translateY(-2px);
-        }
-
-        .mode-view .action-btn.btn-save {
-            display: none;
-        }
-
-        .mode-edit .action-btn.btn-edit {
-            display: none;
-        }
+        .spin { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 
     <div class="edit-toolbar no-print">
@@ -572,213 +538,119 @@
     </div>
 
     <input type="file" id="imageUploader" accept="image/*" style="display: none;">
+
     <script>
         const IMGBB_API_KEY = "2e272c75e3857579bbeba09f6c705291";
-
-        lucide.createIcons();
-
         let isEditMode = false;
-        let textElements, imageElements, portfolioBoxes;
+        let currentImageTarget = null;
 
         const btnEdit = document.getElementById('btnEdit');
         const btnSave = document.getElementById('btnSave');
         const uploader = document.getElementById('imageUploader');
-        let currentImageTarget = null;
 
         function attachEvents() {
-            textElements = document.querySelectorAll('h1, h2, h3, h4, p, span, td, .pull-quote');
-            imageElements = document.querySelectorAll('img');
-            portfolioBoxes = document.querySelectorAll('.portfolio-upload-area');
-
-            // Efek visual saat klik teks di Mode Edit
-            textElements.forEach(el => {
-                el.addEventListener('focus', function () {
-                    if (isEditMode) {
-                        this.style.outline = '2px dashed rgba(242, 146, 0, 0.5)';
-                        this.style.outlineOffset = '2px';
-                        this.style.borderRadius = '2px';
-                    }
-                });
-                el.addEventListener('blur', function () {
-                    this.style.outline = 'none';
-                });
-            });
-
-            // Event listener ganti gambar
-            imageElements.forEach(el => {
-                el.addEventListener('click', function (e) {
-                    if (!isEditMode) return;
-                    currentImageTarget = this;
-                    uploader.click();
-                });
-            });
-
-            // Event listener portfolio
-            portfolioBoxes.forEach(box => {
-                box.addEventListener('mouseover', function () {
-                    if (isEditMode) this.style.background = 'var(--slate-300)';
-                });
-                box.addEventListener('mouseout', function () {
-                    if (isEditMode) this.style.background = 'var(--slate-200)';
-                });
-                box.addEventListener('click', function () {
-                    if (!isEditMode) return;
-                    currentImageTarget = this;
-                    uploader.click();
-                });
-            });
-            
-            // Re-bind portfolio uploaded images
-            const uploadedPortfolios = document.querySelectorAll('.portfolio-upload-area img');
-            uploadedPortfolios.forEach(img => {
-                img.addEventListener('click', function (evt) {
-                    evt.stopPropagation();
-                    if (!isEditMode) return;
-                    currentImageTarget = this; // Set to the img itself so it gets updated
-                    uploader.click();
-                });
-            });
-        }
-
-        function applyMode() {
-            if (isEditMode) {
-                document.body.classList.remove('mode-view');
-                document.body.classList.add('mode-edit');
-
-                textElements.forEach(el => {
-                    el.setAttribute('contenteditable', 'true');
-                    el.title = "Klik untuk mengedit teks";
-                });
-                imageElements.forEach(el => {
-                    el.style.cursor = 'pointer';
-                    el.title = 'Klik untuk mengganti gambar';
-                });
-                portfolioBoxes.forEach(box => {
-                    box.style.cursor = 'pointer';
-                    box.title = 'Klik untuk pilih foto dari galeri';
-                });
-            } else {
-                document.body.classList.remove('mode-edit');
-                document.body.classList.add('mode-view');
-
-                textElements.forEach(el => {
-                    el.removeAttribute('contenteditable');
-                    el.title = "";
-                    el.style.outline = 'none';
-                });
-                imageElements.forEach(el => {
-                    el.style.cursor = 'default';
-                    el.title = '';
-                });
-                portfolioBoxes.forEach(box => {
-                    box.style.cursor = 'default';
-                    box.title = '';
-                });
-            }
-        }
-
-        // Inisialisasi awal
-        attachEvents();
-
-        // Proses upload ke ImgBB API
-        uploader.addEventListener('change', async function (e) {
-            if (this.files && this.files[0]) {
-                const file = this.files[0];
-                const formData = new FormData();
-                formData.append('image', file);
-                
-                const oldSrc = currentImageTarget.tagName === 'IMG' ? currentImageTarget.src : '';
-                const oldHTML = currentImageTarget.innerHTML;
-                if (currentImageTarget.tagName === 'IMG') {
-                    currentImageTarget.src = 'https://i.gifer.com/ZKZg.gif';
-                } else {
-                    currentImageTarget.innerHTML = `<img src="https://i.gifer.com/ZKZg.gif" style="width: 30px; height: 30px;">`;
-                }
-
-                try {
-                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const data = await res.json();
-                    
-                    if (data.success && data.data) {
-                        const imgUrl = data.data.url || data.data.display_url;
-                        if (currentImageTarget.tagName === 'IMG') {
-                            currentImageTarget.src = imgUrl;
-                        } else if (currentImageTarget.classList.contains('portfolio-upload-area')) {
-                            // Gunakan Background Image agar lebih stabil
-                            currentImageTarget.style.backgroundImage = `url('${imgUrl}')`;
-                            currentImageTarget.style.backgroundSize = 'cover';
-                            currentImageTarget.style.backgroundPosition = 'center';
-                            currentImageTarget.style.border = 'none';
-                            currentImageTarget.innerHTML = ''; // Hapus teks "Tambah Foto"
-                            
-                            // Re-bind klik agar bisa diganti lagi
-                            currentImageTarget.onclick = function() {
-                                if (!isEditMode) return;
-                                currentImageTarget = this;
-                                uploader.click();
-                            };
-                        }
-                    } else {
-                        throw new Error('Gagal dari ImgBB');
-                    }
-                } catch (err) {
-                    alert("Gagal mengunggah foto ke server. Pastikan Anda terhubung ke internet.");
-                    if (currentImageTarget.tagName === 'IMG') currentImageTarget.src = oldSrc;
-                    else currentImageTarget.innerHTML = oldHTML;
-                }
-            }
-        });
-
-        btnEdit.addEventListener('click', () => {
-            isEditMode = true;
-            applyMode();
-        });
-
-        btnSave.addEventListener('click', async () => {
-            isEditMode = false;
-            applyMode();
-
-            const originalText = btnSave.innerHTML;
-            btnSave.innerHTML = `<i data-lucide="loader" class="spin"></i> Cloud Sync...`;
             lucide.createIcons();
+            
+            // Pilih SEMUA elemen teks
+            const textSelectors = 'h1, h2, h3, h4, p, span, td, th, .pull-quote, li, .org-node h4, .org-node p';
+            const textElements = document.querySelectorAll(textSelectors);
+            const images = document.querySelectorAll('img');
+            const portfolios = document.querySelectorAll('.portfolio-upload-area');
+
+            textElements.forEach(el => {
+                el.setAttribute('contenteditable', isEditMode ? 'true' : 'false');
+                el.onfocus = () => { if(isEditMode) el.style.outline = '2px solid var(--orange)'; };
+                el.onblur = () => el.style.outline = 'none';
+            });
+
+            images.forEach(img => {
+                img.style.cursor = isEditMode ? 'pointer' : 'default';
+                img.onclick = (e) => {
+                    if(!isEditMode) return;
+                    e.stopPropagation();
+                    currentImageTarget = img;
+                    uploader.click();
+                };
+            });
+
+            portfolios.forEach(area => {
+                area.style.cursor = isEditMode ? 'pointer' : 'default';
+                area.onclick = (e) => {
+                    if(!isEditMode) return;
+                    e.stopPropagation();
+                    currentImageTarget = area;
+                    uploader.click();
+                };
+            });
+        }
+
+        uploader.onchange = async (e) => {
+            if (!uploader.files[0]) return;
+            const file = uploader.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const oldSrc = currentImageTarget.src;
+            const isImgTag = currentImageTarget.tagName === 'IMG';
+            
+            if(isImgTag) currentImageTarget.src = "https://i.gifer.com/ZKZg.gif";
+            else currentImageTarget.innerHTML = `<img src="https://i.gifer.com/ZKZg.gif" style="width:30px;">`;
+
+            try {
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const url = data.data.url;
+                    if(isImgTag) {
+                        currentImageTarget.src = url;
+                    } else {
+                        currentImageTarget.style.backgroundImage = `url('${url}')`;
+                        currentImageTarget.style.backgroundSize = 'cover';
+                        currentImageTarget.style.backgroundPosition = 'center';
+                        currentImageTarget.innerHTML = '';
+                    }
+                }
+            } catch (err) {
+                alert("Gagal upload gambar.");
+                if(isImgTag) currentImageTarget.src = oldSrc;
+            }
+        };
+
+        btnEdit.onclick = () => {
+            isEditMode = true;
+            document.body.classList.add('mode-edit');
+            attachEvents();
+        };
+
+        btnSave.onclick = async () => {
+            isEditMode = false;
+            document.body.classList.remove('mode-edit');
+            attachEvents();
+
+            const originalBtn = btnSave.innerHTML;
+            btnSave.innerHTML = "Saving...";
             
             const panels = document.querySelectorAll('.a4-panel');
             const htmlData = Array.from(panels).map(p => p.innerHTML);
-            const payload = { htmlData: htmlData };
 
             try {
                 const res = await fetch('/api/save', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ htmlData })
                 });
-                
-                if (!res.ok) {
-                    const errorData = await res.json().catch(() => ({}));
-                    throw new Error(errorData.error || `HTTP ${res.status}`);
+                if (res.ok) {
+                    btnSave.innerHTML = "Saved!";
+                    setTimeout(() => { btnSave.innerHTML = originalBtn; }, 2000);
                 }
-
-                btnSave.innerHTML = `<i data-lucide="check" style="width: 18px;"></i> Tersimpan`;
-                lucide.createIcons();
-                btnSave.style.background = '#059669';
-                
-            } catch(e) {
-                console.error(e);
-                alert("Gagal sinkronisasi: " + e.message + "\n(Pastikan Anda membuka link Vercel, bukan file lokal atau GitHub)");
-                btnSave.innerHTML = `<i data-lucide="x" style="width: 18px;"></i> Gagal`;
-                lucide.createIcons();
-                btnSave.style.background = '#EF4444';
+            } catch (e) {
+                alert("Gagal menyimpan ke cloud.");
+                btnSave.innerHTML = originalBtn;
             }
-
-            setTimeout(() => {
-                btnSave.innerHTML = originalText;
-                lucide.createIcons();
-                btnSave.style.background = '#10B981';
-            }, 3000);
-        });
+        };
 
         async function loadFromCloud() {
             try {
@@ -790,18 +662,12 @@
                         if (panels[i]) panels[i].innerHTML = html;
                     });
                     attachEvents();
-                    lucide.createIcons();
                 }
-            } catch (e) {
-                console.error("Gagal load dari Vercel KV", e);
-            }
+            } catch (e) { console.error(e); }
         }
 
-        document.body.classList.add('mode-view');
         loadFromCloud();
-        applyMode();
-
+        attachEvents();
     </script>
 </body>
-
 </html>

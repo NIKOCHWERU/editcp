@@ -385,3 +385,18 @@ p { font-size: 1rem; color: var(--slate-700); margin-bottom: 1rem; }
 
 .org-node.small h4 { font-size: 0.75rem; }
 .org-node.small p { font-size: 0.6rem; }
+
+/* Canva-style Editing Cues */
+.mode-edit [contenteditable="true"]:hover {
+    outline: 2px solid var(--orange) !important;
+    outline-offset: 4px;
+    background: rgba(242, 146, 0, 0.05);
+    cursor: text;
+}
+
+.mode-edit img:hover,
+.mode-edit .portfolio-upload-area:hover {
+    outline: 3px solid var(--navy) !important;
+    outline-offset: 4px;
+    filter: brightness(0.9);
+}
