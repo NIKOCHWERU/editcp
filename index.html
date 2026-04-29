@@ -787,6 +787,25 @@
             lasso.style.display = 'none';
         });
 
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (!isEditMode || selectedElements.length === 0) return;
+            
+            // Don't delete if user is typing inside a text element
+            if (e.target.isContentEditable || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                e.preventDefault();
+                btnDeleteComp.click();
+            }
+            
+            // Optional: Ctrl+D to duplicate
+            if (e.ctrlKey && e.key === 'd') {
+                e.preventDefault();
+                btnDuplicateComp.click();
+            }
+        });
+
         // Global click to deselect if not clicking element
         document.addEventListener('click', (e) => {
             if (!isEditMode) return;
