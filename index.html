@@ -796,26 +796,43 @@
             
             const width = Math.abs(curX - startX);
             const height = Math.abs(curY - startY);
-            const left = curX < startX ? curX : startX;
-            const top = curY < startY ? curY : startY;
+            const left = Math.min(curX, startX);
+            const top = Math.min(curY, startY);
             
             lasso.style.left = left + 'px';
             lasso.style.top = top + 'px';
             lasso.style.width = width + 'px';
             lasso.style.height = height + 'px';
 
-            // Real-time selection check
-            const lassoRect = lasso.getBoundingClientRect();
+            const right = left + width;
+            const bottom = top + height;
+
+            // Real-time selection check with Scroll normalization
             const components = document.querySelectorAll('.lux-card, .portfolio-item, .org-item, p, h1, h2, h3, h4, .pull-quote, .org-node, .org-branches, .org-connector-v, .corner-marker, .fold-line');
             
             components.forEach(comp => {
-                const compRect = comp.getBoundingClientRect();
-                const intersect = !(lassoRect.right < compRect.left || 
-                                    lassoRect.left > compRect.right || 
-                                    lassoRect.bottom < compRect.top || 
-                                    lassoRect.top > compRect.bottom);
+                const rect = comp.getBoundingClientRect();
+                const compLeft = rect.left + window.scrollX;
+                const compTop = rect.top + window.scrollY;
+                const compRight = compLeft + rect.width;
+                const compBottom = compTop + rect.height;
+
+                const intersect = !(right < compLeft || 
+                                    left > compRight || 
+                                    bottom < compTop || 
+                                    top > compBottom);
                 
-                if (intersect) selectComponent(comp);
+                if (intersect) {
+                    if (!selectedElements.includes(comp)) selectComponent(comp);
+                } else {
+                    // Optional: remove if no longer intersecting during drag
+                    if (selectedElements.includes(comp) && !e.shiftKey) {
+                        comp.classList.remove('selected-comp');
+                        selectedElements = selectedElements.filter(el => el !== comp);
+                        updateGroupBoundingBox();
+                        showToolbarForSelection();
+                    }
+                }
             });
         });
 
