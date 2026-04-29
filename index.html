@@ -16,7 +16,19 @@
         <span id="statusText">Mengunggah...</span>
     </div>
 
-    <!-- Multi-selection Box (Lasso) -->
+    <!-- Save Success Watermark -->
+    <div id="saveWatermark" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(16, 185, 129, 0.2); z-index: 10001; align-items: center; justify-content: center; pointer-events: none; backdrop-filter: blur(2px);">
+        <div style="background: #10B981; color: white; padding: 2rem 4rem; border-radius: 15px; font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 900; box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-transform: uppercase; letter-spacing: 5px; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            SELESAI MENYIMPAN
+        </div>
+    </div>
+
+    <style>
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
     <div id="selectionLasso" style="display: none; position: absolute; border: 1px dashed #3B82F6; background: rgba(59, 130, 246, 0.1); z-index: 5000; pointer-events: none;"></div>
     
     <!-- Group Bounding Box (Permanent highlight) -->
@@ -1035,6 +1047,13 @@
                 btnSave.innerHTML = `<i data-lucide="check" style="width: 18px;"></i> Tersimpan`;
                 lucide.createIcons();
                 btnSave.style.background = '#059669';
+                
+                // Tampilkan Watermark SELESAI MENYIMPAN
+                const watermark = document.getElementById('saveWatermark');
+                watermark.style.display = 'flex';
+                setTimeout(() => {
+                    watermark.style.display = 'none';
+                }, 2000);
                 
             } catch(e) {
                 console.error(e);
