@@ -16,6 +16,11 @@ app.use(express.static(__dirname));
 
 // API: Load Data
 app.get('/api/load', (req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
+
     if (fs.existsSync(DATA_FILE)) {
         const data = fs.readFileSync(DATA_FILE, 'utf8');
         try {
@@ -36,7 +41,7 @@ app.post('/api/save', (req, res) => {
     }
 
     try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify({ htmlData }, null, 2));
+        fs.writeFileSync(DATA_FILE, JSON.stringify({ htmlData })); // Removed pretty-print for speed
         res.json({ success: true });
     } catch (e) {
         console.error(e);

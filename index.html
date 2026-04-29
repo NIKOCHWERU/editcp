@@ -1053,7 +1053,8 @@
 
         async function loadFromCloud() {
             try {
-                const res = await fetch('/api/load');
+                // Tambahkan timestamp agar browser tidak mengambil cache lama
+                const res = await fetch('/api/load?t=' + Date.now());
                 const data = await res.json();
                 if (data && data.htmlData) {
                     const panels = document.querySelectorAll('.a4-panel');
